@@ -1,3 +1,9 @@
+/*
+ * ni chuja nie wiem dlaczego to nie działa...
+ * zwraca zawsze 0.000000
+ * jak ktoś znajdzie błąd to dajcie znać 
+ *
+ */
 #include <stdio.h>
 
 int main(){
@@ -6,12 +12,13 @@ int main(){
     double pln;
     double kwota;
 
-    printf("Podaj walute\n");
+    printf("Podaj walute (cyfra)\n");
     printf("1. EURO\n");
     printf("2. DOLAR\n");
     printf("3. FRANK\n");
     printf("4. FUNT\n");
     printf("5. JEN\n");
+
     scanf("%d", &waluta);
 
     printf("Podaj kwote\n");
@@ -26,6 +33,5 @@ int main(){
         default: printf("Error");
     }
 
-    printf("%f", pln);
-    
+    printf("%f", pln);  
 }
