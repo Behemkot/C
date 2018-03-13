@@ -16,6 +16,9 @@ int main() {
      *
      *  jezeli nie wywolamy funkcji srand to rand() bedzie generowal takie same liczby
      *  tak samo w przypadku seed == 1
+     *
+     *  time(NULL) - czas pobrany z komputera
+     *  zmienia się cały czas wiec generowanym liczbą bliżej do losowości
      */
     srand(time(NULL));
 
