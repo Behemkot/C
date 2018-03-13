@@ -9,6 +9,7 @@
  *      return zwracana_wartosc
  *  }
  */
+
 double losowa(double min, double max) {
     double zakres = max - min;
     double dzielnik = RAND_MAX / zakres;

@@ -10,6 +10,4 @@ int main() {
     for(i = 1; i <= n; i++){
         printf("%d\t", 3 * i);
     }
-
-    return 0;
 }

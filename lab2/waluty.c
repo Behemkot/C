@@ -4,6 +4,7 @@
  * jak ktoś znajdzie błąd to dajcie znać 
  *
  */
+
 #include <stdio.h>
 
 int main(){
