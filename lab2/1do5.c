@@ -18,7 +18,7 @@ int main() {
      *  tak samo w przypadku seed == 1
      *
      *  time(NULL) - czas pobrany z komputera
-     *  zmienia się cały czas wiec generowanym liczbą bliżej do losowości
+     *  zmienia się cały czas wiec generowanym liczbom bliżej do losowości
      */
     srand(time(NULL));
 
