@@ -1,5 +1,5 @@
 /*
- * ni chuja nie wiem dlaczego to nie działa...
+ * nie wiem dlaczego to nie działa...
  * zwraca zawsze 0.000000
  * jak ktoś znajdzie błąd to dajcie znać 
  *
