@@ -30,13 +30,13 @@ int main(){
             }
             printf("%d\n", suma);
         }
-        else {
+        else{
             srednia = 0;
             for(j = 0; j < 5; j++) {
-                srednia += losowa(-5,5);
+                srednia += (double)losowa(-5,5);
             }
             srednia /= 5.0;
-            printf("%d\n", srednia);
+            printf("%.1f\n", srednia);
         }
     }
 }
