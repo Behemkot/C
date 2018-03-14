@@ -21,7 +21,7 @@ int main() {
     /*  INNY SPOSOB NA LOSOWANIE
      *  
      *  może troche trudniejszy, ale praktyczny jeśli stworzy się funkcję
-     *  pod zadaniem wrzucę wam kod który możecie wkleić do dowolnego programu
+     *  nad main() jest kod który możecie wkleić do dowolnego programu
      */
     double min = -273.15;
     double max = 1000.0;
