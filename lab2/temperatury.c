@@ -37,7 +37,7 @@ int main() {
         // równoznaczne z 
         temperatura = min + (rand() / dzielnik);
 
-        // %.Xf - float do X miejscu po przecinku
+        // %.Xf - float do X miejsca po przecinku
         printf("%.2f\n", temperatura);
     }
 }
