@@ -1,3 +1,7 @@
+/*  podobny sposób rozwiązania tego samego problemu
+ *  zasadnicza różnica polega na tym że ten sposób jest o wiele lepszy
+ *  jeśli chcemy wygenerować pojedynczą wartość a nie wszystkie
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
