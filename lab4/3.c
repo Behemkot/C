@@ -14,8 +14,8 @@ int losowa(int min, int max) {
 int pierwsza(int n){
     if(n == 1) return 0;
     int i;
-    for(i = 2; i < n/2; i++){
-        if(i%2 == 0)
+    for(i = 2; i <= sqrt(n); i++){
+        if(n%i == 0)
             return 0;
     }
     return 1;
@@ -35,7 +35,7 @@ int main(){
             m[i][j] = losowa(1, 100);
             p = pierwsza(m[i][j]);
             if(p == 1){
-                printf("[%d][%d]\n", i + 1, j + 1);
+                printf("[%d][%d] = %d\n", i + 1, j + 1, m[i][j]);
                 l_prim++;
             }
         }
