@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <time.h>
 
 // funkcja losująca liczby całkowite z przedziału <min, max>
@@ -23,9 +22,10 @@ int losowa(int min, int max) {
  */
 void fill(char *t, int rozmiar, int MIN, int MAX){
     int i;
-    for(i = 0; i < 2 * rozmiar; i +=2 ){
-        t[i] = (char)(losowa(MIN, MAX) + 48);
-        t[i + 1] = "\n";
+    for(i = 0; i < rozmiar - 1; i +=2 ){
+
+        t[i] = losowa(MIN, MAX) + '0';
+        t[i + 1] = '\n';
     }
 }
 
@@ -33,7 +33,8 @@ int main(){
     srand(time(NULL));
 
     int N = 100;
-    char tab[N*2];    //char ponieważ do pliku zapiszemy znaki, nie liczby
+    N *= 2;
+    char tab[N];    //char ponieważ do pliku zapiszemy znaki, nie liczby
     
     fill(tab, N, 1, 5);
 
