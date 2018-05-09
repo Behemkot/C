@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-int i,j;
 char lacznica[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
 char dalej[] = {"FRP"};
 
@@ -14,30 +14,9 @@ int kolejnosc[3] = { 2, 1, 3 };
 char p1[] = {"AJDKSIRUXBLHWTMCQGZNPYFVOE"};
 char p2[] = {"EKMFLGDQVZNTOWYHXUSPAIBRCJ"};
 char p3[] = {"BDFHJLCPRTXVZNYEIWGAKMUSQO"};
-/*
-char p1[26], p2[26], p3[26];
 
-void przyporzadkuj(){
-    for(i = 0; i < 3; i++){
-            switch(i){
-                case 0:
-                    for(j = 0; j < 26; j++)
-                        p1[j] = pierscienie[kolejnosc[i] - 1][j];
-                    break;
-                case 1:
-                    for(j = 0; j < 26; j++)
-                        p2[j] = pierscienie[kolejnosc[i] - 1][j];
-                    break;
-                case 2:
-                    for(j = 0; j < 26; j++)
-                        p3[j] = pierscienie[kolejnosc[i] - 1][j];
-                    break;
-
-            }
-    }
-}
-*/
 void obroc(char p[]){
+    int i;
     char swap = p[0];
     for(i = 0; i < 26 - 1; i++){
         p[i] = p[i + 1];
@@ -47,43 +26,65 @@ void obroc(char p[]){
 
 char pierscien1(char l){
     int pozycja = (int)(l - 'A'); 
+
+    ///////////////////////////////////////////
+    char z = l;                         ///////
+    char y = p1[pozycja];               ///////
+    printf("p1:\t%c ---> %c\n", z, y);  ///////
+    ///////////////////////////////////////////
+
     l = p1[pozycja];
-
-    if(p1[0] == dalej[0]){
-        obroc(p2);
-        if(p2[1] == dalej[1])
-            obroc(p3);
-    }
     
-    obroc(p1);
-
     return l;
 } 
 
+
 char pierscien2(char l){
     int pozycja = (int)(l - 'A'); 
+
+    ///////////////////////////////////////////
+    char z = l;                         ///////
+    char y = p2[pozycja];               ///////
+    printf("p2:\t%c ---> %c\n", z, y);  ///////
+    ///////////////////////////////////////////
+    
     l = p2[pozycja];
     return l;
 }
 
 char pierscien3(char l){
     int pozycja = (int)(l - 'A'); 
+
+    ///////////////////////////////////////////
+    char z = l;                         ///////
+    char y = p2[pozycja];               ///////
+    printf("p3:\t%c ---> %c\n", z, y);  ///////
+    ///////////////////////////////////////////
+    
     l = p3[pozycja];
     return l;
 }
 
+
+
 void szyfruj(char t[], int rozmiar){
+    int i;
+
     for(i = 0; i < rozmiar; i++){
         t[i] = pierscien3(pierscien2(pierscien1(t[i])));
+
+        if(p1[0] == dalej[0]){
+            printf("Obrot p2 bo p1 na %c\n", p1[0]);       ///////
+            obroc(p2);
+            if(p2[1] == dalej[1]){
+                printf("Obrot p3 bo p2 na %c\n", p2[0]);   ///////
+                obroc(p3);
+            }
+        }
+        printf("Obrot p1 bo zaszyfrowalismy litere\n");    ///////
+        obroc(p1);
     }
 }
-
-void deszyfruj(char t[]){
-
-}
-
-
-
 
 int main(){
     // czy szyrujemy czy deszyfrujemy
