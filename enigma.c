@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-int i,j;
 char lacznica[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
 char dalej[] = {"FRP"};
 
@@ -38,6 +38,7 @@ void przyporzadkuj(){
 }
 */
 void obroc(char p[]){
+    int i;
     char swap = p[0];
     for(i = 0; i < 26 - 1; i++){
         p[i] = p[i + 1];
@@ -48,15 +49,6 @@ void obroc(char p[]){
 char pierscien1(char l){
     int pozycja = (int)(l - 'A'); 
     l = p1[pozycja];
-
-    if(p1[0] == dalej[0]){
-        obroc(p2);
-        if(p2[1] == dalej[1])
-            obroc(p3);
-    }
-    
-    obroc(p1);
-
     return l;
 } 
 
@@ -72,9 +64,20 @@ char pierscien3(char l){
     return l;
 }
 
+
+
 void szyfruj(char t[], int rozmiar){
+    int i;
     for(i = 0; i < rozmiar; i++){
         t[i] = pierscien3(pierscien2(pierscien1(t[i])));
+        
+        if(p1[0] == dalej[0]){
+            obroc(p2);
+            if(p2[1] == dalej[1]){
+                obroc(p3);
+            }
+        }
+        obroc(p1);
     }
 }
 
@@ -96,7 +99,7 @@ int main(){
     // początkowe ustawienie pierscieni
 
     // jezeli szyfrujemy
-    szyfruj(tekst, 12);
+    szyfruj(tekst, strlen(tekst));
 
     // jeżeli deszyfrujemy
     // deszyfruj();
