@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-char lacznica[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+char polaczenia[] = {"YRUHQSLDPXNGOKMIEBFZCWVJAT"};
+char lacznica[] =   {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
 char dalej[] = {"FRP"};
+
+int w_przod = 1;
 
 char pierscienie[3][26] = { "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
                             "AJDKSIRUXBLHWTMCQGZNPYFVOE",
@@ -25,43 +28,104 @@ void obroc(char p[]){
 }
 
 char pierscien1(char l){
-    int pozycja = (int)(l - 'A'); 
+    int pozycja;
+    if(w_przod == 1){
+        pozycja = (int)(l - 'A'); 
 
-    ///////////////////////////////////////////
-    char z = l;                         ///////
-    char y = p1[pozycja];               ///////
-    printf("p1:\t%c ---> %c\n", z, y);  ///////
-    ///////////////////////////////////////////
+        ///////////////////////////////////////////
+        char z = l;                         ///////
+        char y = p1[pozycja];               ///////
+        printf("p1:\t%c ---> %c\n", z, y);  ///////
+        ///////////////////////////////////////////
 
-    l = p1[pozycja];
-    
-    return l;
+        l = p1[pozycja];
+        return l;
+    }
+    else{
+        char *poz = strchr(p1, l);
+        pozycja = (int)(poz - p1);
+
+        ///////////////////////////////////////////
+        char z = l;                         ///////
+        char y = lacznica[pozycja];         ///////
+        printf("p1:\t%c ---> %c\n", z, y);  ///////
+        ///////////////////////////////////////////
+
+        l = lacznica[pozycja];
+        return l;
+
+    }
 } 
 
 
 char pierscien2(char l){
-    int pozycja = (int)(l - 'A'); 
+    int pozycja;
+    if(w_przod == 1){
+        pozycja = (int)(l - 'A'); 
 
-    ///////////////////////////////////////////
-    char z = l;                         ///////
-    char y = p2[pozycja];               ///////
-    printf("p2:\t%c ---> %c\n", z, y);  ///////
-    ///////////////////////////////////////////
+        ///////////////////////////////////////////
+        char z = l;                         ///////
+        char y = p2[pozycja];               ///////
+        printf("p2:\t%c ---> %c\n", z, y);  ///////
+        ///////////////////////////////////////////
     
-    l = p2[pozycja];
-    return l;
+        l = p2[pozycja];
+        return l;
+    }
+    else{
+        char *poz = strchr(p2, l);
+        pozycja = (int)(poz - p2);
+
+        ///////////////////////////////////////////
+        char z = l;                         ///////
+        char y = lacznica[pozycja];         ///////
+        printf("p2:\t%c ---> %c\n", z, y);  ///////
+        ///////////////////////////////////////////
+
+        l = lacznica[pozycja];
+        return l;
+
+    }
 }
 
 char pierscien3(char l){
-    int pozycja = (int)(l - 'A'); 
+    int pozycja;
 
-    ///////////////////////////////////////////
-    char z = l;                         ///////
-    char y = p2[pozycja];               ///////
-    printf("p3:\t%c ---> %c\n", z, y);  ///////
-    ///////////////////////////////////////////
+    if(w_przod == 1){
+        pozycja = (int)(l - 'A'); 
+
+        ///////////////////////////////////////////
+        char z = l;                         ///////
+        char y = p3[pozycja];               ///////
+        printf("p3:\t%c ---> %c\n", z, y);  ///////
+        ///////////////////////////////////////////
     
-    l = p3[pozycja];
+        l = p3[pozycja];
+        return l;
+    }
+    else{
+        char *poz = strchr(p3, l);
+        pozycja = (int)(poz - p3);
+        
+        ///////////////////////////////////////////
+        char z = l;                         ///////
+        char y = lacznica[pozycja];         ///////
+        printf("p3:\t%c ---> %c\n", z, y);  ///////
+        ///////////////////////////////////////////
+
+        l = lacznica[pozycja];
+        return l;
+    }
+}
+
+char powrot(char l){
+    int pozycja = (int)(l - 'A');
+
+    char z = l;
+    char y = polaczenia[pozycja];
+    printf("powrot:\t%c ---> %c\n", z, y);
+
+    l = polaczenia[pozycja];
     return l;
 }
 
@@ -71,7 +135,26 @@ void szyfruj(char t[], int rozmiar){
     int i;
 
     for(i = 0; i < rozmiar; i++){
+
+        ///////////////////////////////////////////////////////////
+        printf("\n");
+        fputs(lacznica, stdout);
+        printf("\n");
+        fputs(p1, stdout);
+        printf("\n");
+        fputs(p2, stdout);
+        printf("\n");
+        fputs(p3, stdout);
+        printf("\n");
+        //////////////////////////////////////////////////////////
+
         t[i] = pierscien3(pierscien2(pierscien1(t[i])));
+        
+        w_przod = 0;
+        t[i] = powrot(t[i]);
+
+        t[i] = pierscien1(pierscien2(pierscien3(t[i])));
+
 
         if(p1[0] == dalej[0]){
             printf("Obrot p2 bo p1 na %c\n", p1[0]);       ///////
@@ -83,6 +166,8 @@ void szyfruj(char t[], int rozmiar){
         }
         printf("Obrot p1 bo zaszyfrowalismy litere\n");    ///////
         obroc(p1);
+
+        w_przod = 1;
     }
 }
 
@@ -92,12 +177,14 @@ int main(){
     // wczytujemy tekst
         // usun puste znaki (entery spacje)
         // zmien litery na duże
-    char tekst[] = {"JEBACXSTUDIA"};
+    char tekst[] = {"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"};
     
     // początkowe ustawienie pierscieni
+    
+
 
     // jezeli szyfrujemy
-    szyfruj(tekst, 12);
+    szyfruj(tekst, strlen(tekst));
 
     // jeżeli deszyfrujemy
     // deszyfruj();
