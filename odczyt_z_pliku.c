@@ -28,20 +28,18 @@ int main(){
             c = 'X';
         }
         else{
-            toupper(c);
+            c = toupper(c);
         }
         t[i] = c;
         i++;
     }
-    t[i++] = '\0';
+    t[i] = '\0';
 
     for(i = 0; i < 100; i++){
         if(t[i] == '\0')
             break;
         printf("%c\n", t[i]);
     }
-
-
 
     fclose(file);
     return 0;
