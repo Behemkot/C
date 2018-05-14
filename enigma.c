@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *polaczenia = {"YRUHQSLDPXNGOKMIEBFZCWVJAT"};
-char *lacznica = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
-char *dalej = {"FRP"};
+char *polaczenia = "YRUHQSLDPXNGOKMIEBFZCWVJAT";
+char *lacznica = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+char *dalej = "FRP";
 
 int w_przod = 1;
 
@@ -47,6 +47,7 @@ void obroc(char *p){
 }
 
 char pierscien(char *p, char l){
+    printf("jestem w pierscieniu");
     int pozycja = 0;
     if(w_przod == 1){
         pozycja = (int)(l - 'A'); 
@@ -58,7 +59,6 @@ char pierscien(char *p, char l){
         pozycja = (int)(poz - p);
         l = lacznica[pozycja];
         return l;
-
     }
 } 
 
@@ -71,14 +71,19 @@ char powrot(char l){
 void szyfruj(char t[], int rozmiar){
     int i,j;
     for(i = 0; i < rozmiar; i++){
+        printf("szyfruje %d litere\n", i);
         for(j = 0; j < 3; j++){
+            printf("%d pierscien\n", j);
             t[i] = pierscien(pierscienie[j], t[i]);
+            printf("t[i] = %c\n", t[i]);
         }
-
+        
+        printf("wracam\n");
         powrot(t[i]);
         w_przod = 0;
 
         for(j = 2; j >= 0; j--){
+            printf("%d pierscien\n", j);
             t[i] = pierscien(pierscienie[j], t[i]);
         }
 
@@ -106,7 +111,7 @@ int main(){
     // wczytujemy tekst
         // usun puste znaki (entery spacje)
         // zmien litery na duże
-    char tekst[] = {"JEBACXSTUDIA"};
+    char *tekst = "JEBACXSTUDIA";
     
     // początkowe ustawienie pierscieni
 
@@ -117,6 +122,5 @@ int main(){
     // deszyfruj();
 
     // wyświetlamy / zapisujemy do pliku
-
     fputs(tekst, stdout);
 }
