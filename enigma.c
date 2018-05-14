@@ -2,18 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-char lacznica[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
-char dalej[] = {"FRP"};
+char *polaczenia = {"YRUHQSLDPXNGOKMIEBFZCWVJAT"};
+char *lacznica = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+char *dalej = {"FRP"};
 
-char pierscienie[3][26] = { "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
-                            "AJDKSIRUXBLHWTMCQGZNPYFVOE",
-                            "BDFHJLCPRTXVZNYEIWGAKMUSQO"};
+int w_przod = 1;
+
+char *pierscienie[] = { "EKMFLGDQVZNTOWYHXUSPAIBRCJ", 
+                        "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+                        "BDFHJLCPRTXVZNYEIWGAKMUSQO"};
 
 int kolejnosc[3] = { 2, 1, 3 };
 
-char p1[] = {"AJDKSIRUXBLHWTMCQGZNPYFVOE"};
-char p2[] = {"EKMFLGDQVZNTOWYHXUSPAIBRCJ"};
-char p3[] = {"BDFHJLCPRTXVZNYEIWGAKMUSQO"};
 /*
 char p1[26], p2[26], p3[26];
 
@@ -37,7 +37,7 @@ void przyporzadkuj(){
     }
 }
 */
-void obroc(char p[]){
+void obroc(char *p){
     int i;
     char swap = p[0];
     for(i = 0; i < 26 - 1; i++){
@@ -46,39 +46,51 @@ void obroc(char p[]){
     p[25] = swap;
 }
 
-char pierscien1(char l){
-    int pozycja = (int)(l - 'A'); 
-    l = p1[pozycja];
-    return l;
+char pierscien(char *p, char l){
+    int pozycja = 0;
+    if(w_przod == 1){
+        pozycja = (int)(l - 'A'); 
+        l = p[pozycja];
+        return l;
+    }
+    else{
+        char *poz = strchr(p, l);
+        pozycja = (int)(poz - p);
+        l = lacznica[pozycja];
+        return l;
+
+    }
 } 
 
-char pierscien2(char l){
-    int pozycja = (int)(l - 'A'); 
-    l = p2[pozycja];
+char powrot(char l){
+    int pozycja = (int)(l - 'A');
+    l = polaczenia[pozycja];
     return l;
 }
-
-char pierscien3(char l){
-    int pozycja = (int)(l - 'A'); 
-    l = p3[pozycja];
-    return l;
-}
-
-
 
 void szyfruj(char t[], int rozmiar){
-    int i;
+    int i,j;
     for(i = 0; i < rozmiar; i++){
-        t[i] = pierscien3(pierscien2(pierscien1(t[i])));
-        
-        if(p1[0] == dalej[0]){
-            obroc(p2);
-            if(p2[1] == dalej[1]){
-                obroc(p3);
+        for(j = 0; j < 3; j++){
+            t[i] = pierscien(pierscienie[j], t[i]);
+        }
+
+        powrot(t[i]);
+        w_przod = 0;
+
+        for(j = 2; j >= 0; j--){
+            t[i] = pierscien(pierscienie[j], t[i]);
+        }
+
+        if(pierscienie[0][0] == dalej[0]){
+            obroc(pierscienie[1]);
+            if(pierscienie[1][1] == dalej[1]){
+                obroc(pierscienie[2]);
             }
         }
-        obroc(p1);
+        obroc(pierscienie[0]);
     }
+    w_przod = 1;
 }
 
 void deszyfruj(char t[]){
