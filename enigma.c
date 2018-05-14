@@ -47,7 +47,6 @@ void obroc(char *p){
 }
 
 char pierscien(char *p, char l){
-    printf("jestem w pierscieniu");
     int pozycja = 0;
     if(w_przod == 1){
         pozycja = (int)(l - 'A'); 
@@ -68,23 +67,20 @@ char powrot(char l){
     return l;
 }
 
-void szyfruj(char t[], int rozmiar){
+void szyfruj(const char *t, char *z){
+    int rozmiar = strlen(t);
     int i,j;
     for(i = 0; i < rozmiar; i++){
-        printf("szyfruje %d litere\n", i);
+        z[i] = t[i];
         for(j = 0; j < 3; j++){
-            printf("%d pierscien\n", j);
-            t[i] = pierscien(pierscienie[j], t[i]);
-            printf("t[i] = %c\n", t[i]);
+            z[i] = pierscien(pierscienie[j], z[i]);
         }
         
-        printf("wracam\n");
-        powrot(t[i]);
+        powrot(z[i]);
         w_przod = 0;
 
         for(j = 2; j >= 0; j--){
-            printf("%d pierscien\n", j);
-            t[i] = pierscien(pierscienie[j], t[i]);
+            z[i] = pierscien(pierscienie[j], z[i]);
         }
 
         if(pierscienie[0][0] == dalej[0]){
@@ -111,16 +107,18 @@ int main(){
     // wczytujemy tekst
         // usun puste znaki (entery spacje)
         // zmien litery na duże
-    char *tekst = "JEBACXSTUDIA";
-    
+    const char *tekst = "JEBACXSTUDIA";
+    char *zaszyfrowany_tekst = malloc(strlen(tekst) + 1); 
     // początkowe ustawienie pierscieni
 
     // jezeli szyfrujemy
-    szyfruj(tekst, strlen(tekst));
+    szyfruj(tekst, zaszyfrowany_tekst);
 
     // jeżeli deszyfrujemy
     // deszyfruj();
 
     // wyświetlamy / zapisujemy do pliku
-    fputs(tekst, stdout);
+    fputs(zaszyfrowany_tekst, stdout);
+
+    free(zaszyfrowany_tekst);
 }
