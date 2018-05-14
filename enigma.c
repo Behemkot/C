@@ -8,9 +8,9 @@ char *dalej = "FRP";
 
 int w_przod = 1;
 
-char *pierscienie[] = { "EKMFLGDQVZNTOWYHXUSPAIBRCJ", 
-                        "AJDKSIRUXBLHWTMCQGZNPYFVOE",
-                        "BDFHJLCPRTXVZNYEIWGAKMUSQO"};
+const char *pierscienie[] = {"EKMFLGDQVZNTOWYHXUSPAIBRCJ", 
+                             "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+                             "BDFHJLCPRTXVZNYEIWGAKMUSQO"};
 
 int kolejnosc[3] = { 2, 1, 3 };
 
