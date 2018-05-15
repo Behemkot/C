@@ -18,16 +18,6 @@ char **pierscienie;
 int kolejnosc[3] = { 2, 1, 3 };
 
 
-
-void przyporzadkuj(char **p){
-    int i;
-    for(i = 0; i < 3; i++){
-        p[0][i] = lista_pierscieni[kolejnosc[0] - 1][i];
-        p[1][i] = lista_pierscieni[kolejnosc[1] - 1][i];
-        p[2][i] = lista_pierscieni[kolejnosc[2] - 1][i];
-    }
-}
-
 void obroc(char *p){
     int i;
     char swap = p[0];
@@ -102,14 +92,20 @@ int main(){
     char *zaszyfrowany_tekst = malloc(strlen(tekst) + 1); 
     // początkowe ustawienie pierscieni
 
-    int i;
-    pierscienie  = (char **)malloc(sizeof(char *) * 3);
-    pierscienie[0] = (char *)malloc(sizeof(char) * 26 * 3);
 
-    for(i = 0; i < 3; i++)
-        pierscienie[i] = (*pierscienie + 26 * i);
+    char **pierscienie;
+    pierscienie  = malloc(sizeof(char *) * 3);
+    pierscienie[0] = malloc((26 + 1) * 3);
 
-    przyporzadkuj(pierscienie);
+    for (int i = 1; i < 3; i++) {
+        pierscienie[i] = (*pierscienie + (26 + 1) * i);
+    }
+
+    for (int i = 0; i < 3; i++) {
+        strcpy(pierscienie[i], lista_pierscieni[i]);
+    }
+
+
     // jezeli szyfrujemy
     szyfruj(tekst, zaszyfrowany_tekst);
 
@@ -120,4 +116,8 @@ int main(){
     fputs(zaszyfrowany_tekst, stdout);
 
     free(zaszyfrowany_tekst);
+    free(pierscienie);
+    free(polaczenia);
+    free(lacznica);
+    free(dalej);
 }
