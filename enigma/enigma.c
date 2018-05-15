@@ -52,17 +52,6 @@ void szyfruj(const char *t, char *z){
     int rozmiar = strlen(t);
     int i,j;
     for(i = 0; i < rozmiar; i++){
-        z[i] = t[i];
-        for(j = 0; j < 3; j++){
-            z[i] = pierscien(pierscienie[j], z[i]);
-        }
-        
-        powrot(z[i]);
-        w_przod = 0;
-
-        for(j = 2; j >= 0; j--){
-            z[i] = pierscien(pierscienie[j], z[i]);
-        }
 
         if(pierscienie[0][0] == dalej[0]){
             obroc(pierscienie[1]);
@@ -71,6 +60,20 @@ void szyfruj(const char *t, char *z){
             }
         }
         obroc(pierscienie[0]);
+
+        z[i] = t[i];
+
+        for(j = 0; j < 3; j++){
+            z[i] = pierscien(pierscienie[j], z[i]);
+        }
+        
+        z[i] = powrot(z[i]);
+        w_przod = 0;
+
+        for(j = 2; j >= 0; j--){
+            z[i] = pierscien(pierscienie[j], z[i]);
+        }
+
     }
     w_przod = 1;
 }
