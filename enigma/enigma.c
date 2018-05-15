@@ -101,7 +101,7 @@ int main(){
     }
 
     for (int i = 0; i < 3; i++) {
-        strcpy(pierscienie[i], lista_pierscieni[i]);
+        strcpy(pierscienie[i], lista_pierscieni[kolejnosc[i] - 1]);
     }
 
 
