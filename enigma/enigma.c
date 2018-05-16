@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 char *polaczenia = "YRUHQSLDPXNGOKMIEBFZCWVJAT";
 char *lacznica = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -86,14 +87,47 @@ void deszyfruj(char t[]){
 
 
 int main(){
-    // czy szyrujemy czy deszyfrujemy
 
-    // wczytujemy tekst
-        // usun puste znaki (entery spacje)
-        // zmien litery na duże
-    const char *tekst = "JEBACXSTUDIA";
-    char *zaszyfrowany_tekst = malloc(strlen(tekst) + 1); 
-    // początkowe ustawienie pierscieni
+    FILE *file;
+    char c;
+    char t[100];
+
+    file = fopen("text.txt", "r");
+
+    if(file == NULL){
+        perror("Error: ");
+        exit(-10);
+    }
+    else{
+        printf("Plik istnieje\n");
+    }
+
+    int i = 0;
+    while(!feof(file)){
+        c = (char)fgetc(file);
+
+        if(isspace(c)){
+            c = 'X';
+        }
+        else{
+            c = toupper(c);
+        }
+        t[i] = c;
+        i++;
+    }
+    t[i-2] = '\0';
+
+    for(i = 0; i < 100; i++){
+        if(t[i] == '\0')
+            break;
+        printf("%c", t[i]);
+    }
+    printf("\n");
+
+    fclose(file);
+
+
+    char *zaszyfrowany_tekst = malloc(strlen(t) + 1); 
 
 
     pierscienie  = malloc(sizeof(char *) * 3);
@@ -109,10 +143,8 @@ int main(){
 
 
     // jezeli szyfrujemy
-    szyfruj(tekst, zaszyfrowany_tekst);
+    szyfruj(t, zaszyfrowany_tekst);
 
-    // jeżeli deszyfrujemy
-    // deszyfruj();
 
     // wyświetlamy / zapisujemy do pliku
     fputs(zaszyfrowany_tekst, stdout);
