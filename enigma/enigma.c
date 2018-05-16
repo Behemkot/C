@@ -53,14 +53,13 @@ void szyfruj(const char *t, char *z){
     int rozmiar = strlen(t);
     int i,j;
     for(i = 0; i < rozmiar; i++){
-
+        obroc(pierscienie[0]);
         if(pierscienie[0][0] == dalej[0]){
             obroc(pierscienie[1]);
             if(pierscienie[1][1] == dalej[1]){
                 obroc(pierscienie[2]);
             }
         }
-        obroc(pierscienie[0]);
 
         z[i] = t[i];
 
@@ -74,9 +73,8 @@ void szyfruj(const char *t, char *z){
         for(j = 2; j >= 0; j--){
             z[i] = pierscien(pierscienie[j], z[i]);
         }
-
+        w_przod = 1;
     }
-    w_przod = 1;
 }
 
 void deszyfruj(char t[]){
