@@ -16,7 +16,7 @@ const char *lista_pierscieni[] = {  "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
 
 char **pierscienie;
 
-int kolejnosc[3] = { 2, 1, 3 };
+int kolejnosc[3] = { 1, 3, 2 };
 
 
 void obroc(char *p){
@@ -49,6 +49,12 @@ char powrot(char l){
     return l;
 }
 
+void resetuj_pierscienie(){
+    for (int i = 0; i < 3; i++) {
+        strcpy(pierscienie[i], lista_pierscieni[kolejnosc[i] - 1]);
+    }
+}
+
 void szyfruj(const char *t, char *z){
     int rozmiar = strlen(t);
     int i,j;
@@ -77,8 +83,9 @@ void szyfruj(const char *t, char *z){
     }
 }
 
-void deszyfruj(char t[]){
-
+void deszyfruj(const char *t, char *z){
+    resetuj_pierscienie();
+    szyfruj(t, z);
 }
 
 
@@ -126,7 +133,7 @@ int main(){
 
 
     char *zaszyfrowany_tekst = malloc(strlen(t) + 1); 
-
+    char *odszyfrowany_tekst = malloc(strlen(t) + 1);
 
     pierscienie  = malloc(sizeof(char *) * 3);
     pierscienie[0] = malloc((26 + 1) * 3);
@@ -135,10 +142,8 @@ int main(){
         pierscienie[i] = (*pierscienie + (26 + 1) * i);
     }
 
-    for (int i = 0; i < 3; i++) {
-        strcpy(pierscienie[i], lista_pierscieni[kolejnosc[i] - 1]);
-    }
 
+    resetuj_pierscienie();
 
     // jezeli szyfrujemy
     szyfruj(t, zaszyfrowany_tekst);
@@ -146,6 +151,12 @@ int main(){
 
     // wyświetlamy / zapisujemy do pliku
     fputs(zaszyfrowany_tekst, stdout);
+
+    // deszyfrujemy
+    deszyfruj(zaszyfrowany_tekst, odszyfrowany_tekst);
+    odszyfrowany_tekst[strlen(odszyfrowany_tekst) - 1] = '\0';
+    fputs(odszyfrowany_tekst, stdout);
+
 
     free(zaszyfrowany_tekst);
     free(pierscienie[0]);

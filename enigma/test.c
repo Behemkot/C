@@ -180,7 +180,7 @@ int main(){
         // usun puste znaki (entery spacje)
 
 
-    char tekst[] = {"JEBACXSTUDIA"};
+    char tekst[] = {"A"};
     // początkowe ustawienie pierscieni
     
 
