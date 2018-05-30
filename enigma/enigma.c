@@ -89,26 +89,22 @@ void deszyfruj(const char *t, char *z){
 }
 
 
-
-
 int main(){
-
     FILE *file;
-    FILE *new_file;
+    FILE *zaszyfrowana_wiadomosc;
+    FILE *odszyfrowana_wiadomosc;
     char c;
     char t[100];
 
-    file = fopen("text.txt", "r");
-    new_file = fopen("zaszyfrowany_tekst", "wa");
+    file = fopen("wiadomosc.txt", "r");
+    
 
     if(file == NULL){
         perror("Error: ");
         exit(-10);
     }
-    else{
-        printf("Plik istnieje\n");
-    }
 
+    // odczyt danych z pliku
     int i = 0;
     while(!feof(file)){
         c = (char)fgetc(file);
@@ -124,16 +120,11 @@ int main(){
     }
     t[i-2] = '\0';
 
-    for(i = 0; i < 100; i++){
-        if(t[i] == '\0')
-            break;
-        printf("%c", t[i]);
-    }
-    printf("\n");
-
+    // zamykanie pliku
     fclose(file);
 
 
+    // alokacja pamieci
     char *zaszyfrowany_tekst = malloc(strlen(t) + 1); 
     char *odszyfrowany_tekst = malloc(strlen(t) + 1);
 
@@ -144,26 +135,52 @@ int main(){
         pierscienie[i] = (*pierscienie + (26 + 1) * i);
     }
 
+    
+    char wybor;
+    printf("Szyfrowanie czy deszyfrowanie? (s/d)\n");
+    scanf("%c", &wybor);
 
     resetuj_pierscienie();
 
-    // jezeli szyfrujemy
-    szyfruj(t, zaszyfrowany_tekst);
+    if(wybor == 's'){
+        // otwieranie pliku do nadpisania
+        zaszyfrowana_wiadomosc = fopen("zaszyfrowana_wiadomosc.txt", "wa");
 
+        // szyfrowanie
+        szyfruj(t, zaszyfrowany_tekst);
 
-    // zapis zaszyfrowanego tekstu do pliku
-    fputs(zaszyfrowany_tekst, new_file);
+        //zapis od pliku
+        //
+        //opcjonalnie:
+        //fputs("Zaszyfrowany tekst:\n", zaszyfrowana_wiadomosc);
+        fputs(zaszyfrowany_tekst, zaszyfrowana_wiadomosc);
+
+        // zamykanie pliku
+        fclose(zaszyfrowana_wiadomosc);
+    }
+    else if(wybor == 'd'){
+        // otwieranie pliku do nadpisania
+        odszyfrowana_wiadomosc = fopen("odszyfrowana_wiadomosc.txt", "wa");
+
+        // deszyfrowanie
+        deszyfruj(t, odszyfrowany_tekst);
+        odszyfrowany_tekst[strlen(odszyfrowany_tekst) - 1] = '\0';
+
+        // zapis do pliku
+        //opcjonalnie:
+        //fputs("Odszyfrowany tekst:\n", odszyfrowana_wiadomosc);
+        fputs(zaszyfrowany_tekst, odszyfrowana_wiadomosc);
+
+        // zamykanie pliku
+        fclose(odszyfrowana_wiadomosc);
+    }
+    else{
+        printf("Niepoprawna komenda");
+    }
     
-    // wyświetlamy / zapisujemy do pliku
-    fputs(zaszyfrowany_tekst, stdout);
-
-    // deszyfrujemy
-    deszyfruj(zaszyfrowany_tekst, odszyfrowany_tekst);
-    odszyfrowany_tekst[strlen(odszyfrowany_tekst) - 1] = '\0';
-    fputs(odszyfrowany_tekst, stdout);
-
-
+    // uwalnianie przydzielonej pamieci
     free(zaszyfrowany_tekst);
+    free(odszyfrowany_tekst);
     free(pierscienie[0]);
     free(pierscienie);
 }
