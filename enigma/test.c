@@ -3,24 +3,23 @@
 #include <string.h>
 #include <ctype.h>
 
-
-char polaczenia[] = {"YRUHQSLDPXNGOKMIEBFZCWVJAT"};
-char lacznica[] =   {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
-char dalej[] = {"FRP"};
+char *polaczenia = "YRUHQSLDPXNGOKMIEBFZCWVJAT";
+char *lacznica = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+char *dalej = "FRP";
 
 int w_przod = 1;
 
-char pierscienie[3][26] = { "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
-                            "AJDKSIRUXBLHWTMCQGZNPYFVOE",
-                            "BDFHJLCPRTXVZNYEIWGAKMUSQO"};
+const char *lista_pierscieni[] = {  "EKMFLGDQVZNTOWYHXUSPAIBRCJ", 
+                                    "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+                                    "BDFHJLCPRTXVZNYEIWGAKMUSQO",
+                                    NULL};
 
-int kolejnosc[3] = { 2, 1, 3 };
+char **pierscienie;
 
-char p1[] = {"AJDKSIRUXBLHWTMCQGZNPYFVOE"};
-char p2[] = {"EKMFLGDQVZNTOWYHXUSPAIBRCJ"};
-char p3[] = {"BDFHJLCPRTXVZNYEIWGAKMUSQO"};
+int kolejnosc[3] = { 1, 3, 2 };
 
-void obroc(char p[]){
+
+void obroc(char *p){
     int i;
     char swap = p[0];
     for(i = 0; i < 26 - 1; i++){
@@ -29,169 +28,169 @@ void obroc(char p[]){
     p[25] = swap;
 }
 
-char pierscien1(char l){
-    int pozycja;
+char pierscien(char *p, char l){
+    int pozycja = 0;
     if(w_przod == 1){
         pozycja = (int)(l - 'A'); 
-
-        ///////////////////////////////////////////
-        char z = l;                         ///////
-        char y = p1[pozycja];               ///////
-        printf("p1:\t%c ---> %c\n", z, y);  ///////
-        ///////////////////////////////////////////
-
-        l = p1[pozycja];
+        l = p[pozycja];
         return l;
     }
     else{
-        char *poz = strchr(p1, l);
-        pozycja = (int)(poz - p1);
-
-        ///////////////////////////////////////////
-        char z = l;                         ///////
-        char y = lacznica[pozycja];         ///////
-        printf("p1:\t%c ---> %c\n", z, y);  ///////
-        ///////////////////////////////////////////
-
+        char *poz = strchr(p, l);
+        pozycja = (int)(poz - p);
         l = lacznica[pozycja];
         return l;
-
     }
 } 
 
-
-char pierscien2(char l){
-    int pozycja;
-    if(w_przod == 1){
-        pozycja = (int)(l - 'A'); 
-
-        ///////////////////////////////////////////
-        char z = l;                         ///////
-        char y = p2[pozycja];               ///////
-        printf("p2:\t%c ---> %c\n", z, y);  ///////
-        ///////////////////////////////////////////
-    
-        l = p2[pozycja];
-        return l;
-    }
-    else{
-        char *poz = strchr(p2, l);
-        pozycja = (int)(poz - p2);
-
-        ///////////////////////////////////////////
-        char z = l;                         ///////
-        char y = lacznica[pozycja];         ///////
-        printf("p2:\t%c ---> %c\n", z, y);  ///////
-        ///////////////////////////////////////////
-
-        l = lacznica[pozycja];
-        return l;
-
-    }
-}
-
-char pierscien3(char l){
-    int pozycja;
-
-    if(w_przod == 1){
-        pozycja = (int)(l - 'A'); 
-
-        ///////////////////////////////////////////
-        char z = l;                         ///////
-        char y = p3[pozycja];               ///////
-        printf("p3:\t%c ---> %c\n", z, y);  ///////
-        ///////////////////////////////////////////
-    
-        l = p3[pozycja];
-        return l;
-    }
-    else{
-        char *poz = strchr(p3, l);
-        pozycja = (int)(poz - p3);
-        
-        ///////////////////////////////////////////
-        char z = l;                         ///////
-        char y = lacznica[pozycja];         ///////
-        printf("p3:\t%c ---> %c\n", z, y);  ///////
-        ///////////////////////////////////////////
-
-        l = lacznica[pozycja];
-        return l;
-    }
-}
-
 char powrot(char l){
     int pozycja = (int)(l - 'A');
-
-    char z = l;
-    char y = polaczenia[pozycja];
-    printf("powrot:\t%c ---> %c\n", z, y);
-
     l = polaczenia[pozycja];
     return l;
 }
 
+void resetuj_pierscienie(){
+    for (int i = 0; i < 3; i++) {
+        strcpy(pierscienie[i], lista_pierscieni[kolejnosc[i] - 1]);
+    }
+}
 
-
-void szyfruj(char t[], int rozmiar){
-    int i;
-
+void szyfruj(const char *t, char *z){
+    int rozmiar = strlen(t);
+    int i,j;
     for(i = 0; i < rozmiar; i++){
-
-        ///////////////////////////////////////////////////////////
-        printf("\n");
-        fputs(lacznica, stdout);
-        printf("\n");
-        fputs(p1, stdout);
-        printf("\n");
-        fputs(p2, stdout);
-        printf("\n");
-        fputs(p3, stdout);
-        printf("\n");
-        //////////////////////////////////////////////////////////
-
-        t[i] = pierscien3(pierscien2(pierscien1(t[i])));
-        
-        w_przod = 0;
-        t[i] = powrot(t[i]);
-
-        t[i] = pierscien1(pierscien2(pierscien3(t[i])));
-
-
-        if(p1[0] == dalej[0]){
-            printf("Obrot p2 bo p1 na %c\n", p1[0]);       ///////
-            obroc(p2);
-            if(p2[1] == dalej[1]){
-                printf("Obrot p3 bo p2 na %c\n", p2[0]);   ///////
-                obroc(p3);
+        obroc(pierscienie[0]);
+        if(pierscienie[0][0] == dalej[0]){
+            obroc(pierscienie[1]);
+            if(pierscienie[1][1] == dalej[1]){
+                obroc(pierscienie[2]);
             }
         }
-        printf("Obrot p1 bo zaszyfrowalismy litere\n");    ///////
-        obroc(p1);
 
+        z[i] = t[i];
+
+        for(j = 0; j < 3; j++){
+            z[i] = pierscien(pierscienie[j], z[i]);
+        }
+        
+        z[i] = powrot(z[i]);
+        w_przod = 0;
+
+        for(j = 2; j >= 0; j--){
+            z[i] = pierscien(pierscienie[j], z[i]);
+        }
         w_przod = 1;
     }
 }
 
+void deszyfruj(const char *t, char *z){
+    resetuj_pierscienie();
+    szyfruj(t, z);
+}
+
+
+
+
 int main(){
-    // czy szyrujemy czy deszyfrujemy
 
-    // wczytujemy tekst
-        // usun puste znaki (entery spacje)
+    FILE *file = fopen("text.txt", "r");
+    FILE *zaszyfrowany = fopen("zaszyfrowany_tekst.txt", "wa");
+    FILE *odszyfrowany = fopen("odszyfrowany_tekst.txt", "wa");
 
-
-    char tekst[] = {"A"};
-    // początkowe ustawienie pierscieni
+    char c;
+    int i = 0;
+    int dlugosc = 100;
+    char t[dlugosc];
     
+    pierscienie  = malloc(sizeof(char *) * 3);
+    pierscienie[0] = malloc((26 + 1) * 3);
 
+    for (int i = 1; i < 3; i++) {
+        pierscienie[i] = (*pierscienie + (26 + 1) * i);
+    }
 
-    // jezeli szyfrujemy
-    szyfruj(tekst, strlen(tekst));
+    resetuj_pierscienie();
 
-    // jeżeli deszyfrujemy
-    // deszyfruj();
+    char wybor;
+    printf("szyfrowanie, czy deszyfrowanie? s/d\n");
+    scanf("%c", &wybor);
 
-    // wyświetlamy / zapisujemy do pliku
+    if(wybor == 's'){
 
-    fputs(tekst, stdout);
+        if(file == NULL){
+            perror("Error: ");
+            exit(-10);
+        }
+
+        int i = 0;
+        while(!feof(file)){
+            c = (char)fgetc(file);
+
+            if(isspace(c)){
+                c = 'X';
+            }
+            else{
+                c = toupper(c);
+            }
+            t[i] = c;
+            i++;
+        }
+        t[i-2] = '\0';
+
+        for(i = 0; i < dlugosc; i++){
+            if(t[i] == '\0')
+                break;
+            printf("%c", t[i]);
+        }
+        printf("\n");
+
+        fclose(file);
+
+        char *zaszyfrowany_tekst = malloc(strlen(t) + 1); 
+
+        szyfruj(t, zaszyfrowany_tekst);
+        fputs(zaszyfrowany_tekst, zaszyfrowany);
+
+        free(zaszyfrowany_tekst);
+
+    }
+    else if(wybor == 'd'){
+        if(file == NULL){
+            perror("Error: ");
+            exit(-10);
+        }
+
+        int i = 0;
+        while(!feof(file)){
+            c = (char)fgetc(file);
+            if(isspace(c)){
+                c = 'X';
+            }
+            t[i] = c;
+            i++;
+        }
+        t[i-2] = '\0';
+
+        for(i = 0; i < dlugosc; i++){
+            if(t[i] == '\0')
+                break;
+            printf("%c", t[i]);
+        }
+        printf("\n");
+
+        fclose(file);
+
+        char *odszyfrowany_tekst = malloc(strlen(t) + 1);
+    
+        deszyfruj(t, odszyfrowany_tekst);
+        odszyfrowany_tekst[strlen(odszyfrowany_tekst) - 1] = '\0';
+        fputs(odszyfrowany_tekst, odszyfrowany);
+    }
+    else{
+        perror("Error: Nieodpowiednie polecenie.");
+        exit(0);
+    }
+
+    free(pierscienie[0]);
+    free(pierscienie);
 }

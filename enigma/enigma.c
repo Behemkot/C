@@ -94,10 +94,12 @@ void deszyfruj(const char *t, char *z){
 int main(){
 
     FILE *file;
+    FILE *new_file;
     char c;
     char t[100];
 
     file = fopen("text.txt", "r");
+    new_file = fopen("zaszyfrowany_tekst", "wa");
 
     if(file == NULL){
         perror("Error: ");
@@ -149,6 +151,9 @@ int main(){
     szyfruj(t, zaszyfrowany_tekst);
 
 
+    // zapis zaszyfrowanego tekstu do pliku
+    fputs(zaszyfrowany_tekst, new_file);
+    
     // wyświetlamy / zapisujemy do pliku
     fputs(zaszyfrowany_tekst, stdout);
 
