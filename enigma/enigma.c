@@ -169,7 +169,7 @@ int main(){
         // zapis do pliku
         //opcjonalnie:
         //fputs("Odszyfrowany tekst:\n", odszyfrowana_wiadomosc);
-        fputs(zaszyfrowany_tekst, odszyfrowana_wiadomosc);
+        fputs(odszyfrowany_tekst, odszyfrowana_wiadomosc);
 
         // zamykanie pliku
         fclose(odszyfrowana_wiadomosc);
